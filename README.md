@@ -1,2 +1,4 @@
-# drunk_mode
-iOS Tweak that add a Drunk Mode switch into Preferences
+DrunkModeLogos
+==============
+
+DrunkMode by Qusic rewritten in Logos
