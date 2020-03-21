@@ -21,6 +21,7 @@ static void setDrunkMode(BOOL value)
 %hook CKChatController
 -(void)messageEntryViewSendButtonHit:(id)messageEntryView {
     if (getDrunkMode()) {
+    	// TODO: This really needs to be refactored into a function createAlert
 	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Drunk Mode"
                                                                 message:@"Go Home"
                                                                 preferredStyle:UIAlertControllerStyleAlert];
@@ -47,6 +48,7 @@ UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
 
 -(void)sendButtonTapped:(id)arg1 {
     if (getDrunkMode()) {
+      // TODO: This really needs to be refactored into a function createAlert
        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Drunk Mode"
                                                                message:@"Go Home"
                                                                preferredStyle:UIAlertControllerStyleAlert];
