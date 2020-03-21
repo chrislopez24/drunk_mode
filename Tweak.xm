@@ -1,4 +1,5 @@
 #import "PSSpecifier.h"
+#import "WAHeaders.h"
 
 #define PreferencesPlist @"/var/mobile/Library/Preferences/me.qusic.drunkmode.plist"
 #define DrunkModeKey @"DrunkMode"
@@ -20,20 +21,49 @@ static void setDrunkMode(BOOL value)
 %hook CKChatController
 -(void)messageEntryViewSendButtonHit:(id)messageEntryView {
     if (getDrunkMode()) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Drunk Mode"
-                                                                         message:@"Go Home"
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
-//We add buttons to the alert controller by creating UIAlertActions:
-UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Whaat???"
-                                                   style:UIAlertActionStyleDefault
+	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Drunk Mode"
+                                                                message:@"Go Home"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+
+        //We add buttons to the alert controller by creating UIAlertActions:
+        UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Whaat???"
+                                                 style:UIAlertActionStyleDefault
                                                  handler:nil];
-[alertController addAction:actionOk];
-[self presentViewController:alertController animated:YES completion:nil];
+        [alertController addAction:actionOk];
+        [self presentViewController:alertController animated:YES completion:nil];
     } else {
         %orig();
     }
 }
 
+
+%end
+
+// WA
+
+%hook WAChatBar
+
+UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+
+-(void)sendButtonTapped:(id)arg1 {
+    if (getDrunkMode()) {
+       UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Drunk Mode"
+                                                               message:@"Go Home"
+                                                               preferredStyle:UIAlertControllerStyleAlert];
+
+       //We add buttons to the alert controller by creating UIAlertActions:
+       UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Whaat???"
+                                                style:UIAlertActionStyleDefault
+                                                handler:nil];
+      [alertController addAction:actionOk];
+      [self.window makeKeyAndVisible];
+      //TODO: open keyboard once we close the alert
+      [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+
+   } else {
+        %orig();
+    }
+}
 
 %end
 
